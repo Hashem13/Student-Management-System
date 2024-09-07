@@ -1,0 +1,12 @@
+<div class="form-container">
+    <h2 class="form-title">Register for a Course</h2>
+    <form class="form">
+      <label for="course">Course:</label>
+      <select id="course" name="course" required>
+        <option *ngFor="let course of availableCourses" [value]="course.id">{{ course.name }}</option>
+      </select>
+  
+      <button type="submit" class="btn">Register</button>
+    </form>
+  </div>
+  

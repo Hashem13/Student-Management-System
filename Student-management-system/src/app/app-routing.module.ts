@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { CourseListComponent } from './components/course-list/course-list.component';
-import { RegisterFormComponent } from './components/register-form/register-form.component';
-import { ScheduleListComponent } from './components/schedule-list/schedule-list.component';
 
 const routes: Routes = [
+  { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
+  { path: 'courses', loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule) },
+  { path: 'register', loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationModule) },
+  { path: 'cancel', loadChildren: () => import('./cancellation/cancellation.module').then(m => m.CancellationModule) },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginFormComponent },
-  { path: 'courses', component: CourseListComponent },
-  { path: 'registration', component: RegisterFormComponent },
-  { path: 'schedule', component: ScheduleListComponent },
-  // Add other routes or wildcard route here if necessary
+  { path: '**', redirectTo: '/login' }  // Wildcard route
 ];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
