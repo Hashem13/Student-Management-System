@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { CourseService } from '../course.service';
+import { CourseService } from '../course.service'; // Adjust the path if necessary
 
 @Component({
   selector: 'app-course-list',
@@ -9,21 +8,19 @@ import { CourseService } from '../course.service';
 })
 export class CourseListComponent implements OnInit {
   courses: any[] = [];
+  errorMessage: string = '';
 
-  constructor(private courseService: CourseService, private router: Router) { }
+  constructor(private courseService: CourseService) { }
 
   ngOnInit(): void {
     this.courseService.getCourses().subscribe(
-      (data: any) => {
-        this.courses = data; // Adjust based on actual API response
+      data => {
+        this.courses = data;
       },
       error => {
+        this.errorMessage = 'Error fetching courses. Please try again.';
         console.error('Error fetching courses', error);
       }
     );
-  }
-
-  registerCourse(courseId: string): void {
-    this.router.navigate(['/register', courseId]);
   }
 }

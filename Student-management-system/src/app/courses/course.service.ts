@@ -1,3 +1,4 @@
+// course.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -6,11 +7,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CourseService {
-  private apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // Mock API endpoint
+  private apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // Mock API URL
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getCourses(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl); // Adjust to your actual endpoint
+  }
+
+  getCourseById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 }
