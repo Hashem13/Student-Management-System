@@ -1,11 +1,1 @@
-<div class="form-container">
-  <h2 class="form-title">Cancel Course Registration</h2>
-  <form class="form">
-    <label for="course">Course:</label>
-    <select id="course" name="course" required>
-      <option *ngFor="let course of registeredCourses" [value]="course.id">{{ course.name }}</option>
-    </select>
 
-    <button type="submit" class="btn">Cancel Registration</button>
-  </form>
-</div>

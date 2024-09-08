@@ -6,19 +6,6 @@ import { CourseService } from '../course.service';
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.css']
 })
-export class CourseListComponent implements OnInit {
-  courses: any[] = [];
-
-  constructor(private courseService: CourseService) { }
-
-  ngOnInit() {
-    this.courseService.getCourses().subscribe(
-      courses => {
-        this.courses = courses;
-      },
-      error => {
-        console.error('Error fetching courses', error);
-      }
-    );
-  }
+export class CourseListComponent  {
+  
 }

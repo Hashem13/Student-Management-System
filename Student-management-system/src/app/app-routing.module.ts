@@ -6,8 +6,7 @@ const routes: Routes = [
   { path: 'courses', loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule) },
   { path: 'register', loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationModule) },
   { path: 'cancel', loadChildren: () => import('./cancellation/cancellation.module').then(m => m.CancellationModule) },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login' }  // Wildcard route
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({
