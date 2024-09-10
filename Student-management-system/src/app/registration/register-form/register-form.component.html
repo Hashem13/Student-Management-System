@@ -1,0 +1,12 @@
+<div class="registration-container">
+    <h2 class="registration-title">Register for Course</h2>
+    <div *ngIf="course">
+      <h3 class="course-name">{{ course.title }}</h3>
+      <p class="course-description">{{ course.description }}</p>
+      <form (ngSubmit)="register()">
+        <button type="submit" class="btn">Confirm Registration</button>
+      </form>
+    </div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  </div>
+  

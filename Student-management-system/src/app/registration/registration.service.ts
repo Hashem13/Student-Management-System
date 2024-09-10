@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RegistrationService {
-  private apiUrl = 'https://api.example.com/registration'; // Replace with your API URL
+  private apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // Replace with your actual API URL
 
   constructor(private http: HttpClient) { }
 
-  registerCourse(courseId: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, { courseId });
+  registerCourse(userId: string, courseId: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, { userId, courseId });
   }
 }
