@@ -6,16 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RegistrationService {
-  private apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // Replace with your actual API endpoint
+  private apiUrl = 'https://api.example.com/registration'; // Replace with your API URL
 
   constructor(private http: HttpClient) { }
 
-  // Updated method to accept userId and courseId
-  registerForCourse(userId: string, courseId: string): Observable<any> {
-    const registrationData = { userId, courseId }; // Ensure both are sent in the payload
-    console.log("Registration payload:", registrationData); // For debugging
-  
-    return this.http.post<any>(`${this.apiUrl}/register`, registrationData);
+  registerCourse(courseId: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, { courseId });
   }
-  
 }
