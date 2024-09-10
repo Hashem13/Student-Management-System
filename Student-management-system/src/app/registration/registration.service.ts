@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RegistrationService {
-  private apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // Replace with your actual API URL
+  private apiUrl = 'https://reqres.in/api/users'; // Replace with your actual API URL
 
   constructor(private http: HttpClient) { }
 

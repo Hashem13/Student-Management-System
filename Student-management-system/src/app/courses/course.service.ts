@@ -17,4 +17,10 @@ export class CourseService {
   getCourseById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
+  
+  getUserCourses(userId: string): Observable<any[]> {
+    // Adjust the endpoint if needed
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/courses`);
+  }
+  
 }
