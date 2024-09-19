@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -16,16 +16,16 @@ export class LoginFormComponent {
 
   login() {
     this.authService.login(this.email, this.password).subscribe(
-      response => {
-        if (response.token) {
-          localStorage.setItem('authToken', response.token);
+      (response: any) => {
+        if (response.message === 'Login successful') {
           this.router.navigate(['/courses']);
         } else {
-          this.errorMessage = 'Unexpected response from the server.';
+          this.errorMessage = 'Invalid email or password';
         }
       },
-      error => {
-        this.errorMessage = 'Invalid email or password';
+      (error) => {
+        console.error('Error during login:', error);
+        this.errorMessage = 'Login failed. Please try again.';
       }
     );
   }
