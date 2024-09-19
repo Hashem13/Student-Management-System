@@ -28,5 +28,15 @@ import java.util.List;
         public void deleteUser(Long id) {
             userRepository.deleteById(id);
         }
+
+        public boolean authenticateUser(String email, String password) {
+            User user = userRepository.findByEmail(email);
+
+            // Here you would validate the password, probably using a hash comparison.
+            if (user != null && user.getPassword().equals(password)) {
+                return true;
+            }
+            return false;
+        }
     }
 
