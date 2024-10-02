@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CourseService {
-  private apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // Mock API endpoint
+  private apiUrl = 'http://localhost:8080/courses'; // Mock API endpoint
 
   constructor(private http: HttpClient) { }
 

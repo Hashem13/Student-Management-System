@@ -1,9 +1,10 @@
 <div class="course-container">
-    <h2 class="course-title">Available Courses</h2>
-    <div *ngFor="let course of courses" class="course-card">
-      <h3 class="course-name">{{ course.title }}</h3>
-      <p class="course-description">{{ course.description }}</p>
-      <button class="btn" (click)="registerCourse(course.id)">Register</button>
-    </div>
+  <h1 class="course-title">Available Courses</h1>
+  <div *ngFor="let course of courses" class="course-card">
+    <h2 class="course-name">{{ course.courseName }}</h2>
+    <p class="course-description">{{ course.courseDescription }}</p>
+    <p>Credits: {{ course.credits }}</p>
+    <p>Instructor: {{ course.instructorName }}</p>
+    <button class="btn" (click)="registerCourse(course.id)">Register</button>
   </div>
-  
+</div>

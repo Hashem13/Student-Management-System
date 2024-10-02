@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { CourseService } from '../course.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-list',
@@ -13,17 +13,21 @@ export class CourseListComponent implements OnInit {
   constructor(private courseService: CourseService, private router: Router) { }
 
   ngOnInit(): void {
+    this.loadCourses();
+  }
+
+  loadCourses(): void {
     this.courseService.getCourses().subscribe(
-      (data: any) => {
-        this.courses = data; // Adjust based on actual API response
+      (data) => {
+        this.courses = data;
       },
-      error => {
+      (error) => {
         console.error('Error fetching courses', error);
       }
     );
   }
 
-  registerCourse(courseId: string): void {
+  registerCourse(courseId: number): void {
     this.router.navigate(['/register', courseId]);
   }
 }
