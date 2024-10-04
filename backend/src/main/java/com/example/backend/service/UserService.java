@@ -3,40 +3,39 @@ package com.example.backend.service;
 import com.example.backend.model.User;
 import com.example.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-    @Service
-    public class UserService {
+@Service
+    public class UserService implements UserDetailsService {
 
         @Autowired
-        private UserRepository userRepository;
+        private UserRepository repository;
 
-        public List<User> getAllUsers() {
-            return userRepository.findAll();
+        @Autowired
+        private PasswordEncoder encoder;
+
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            Optional<User> userDetail = repository.findByEmail(username); // Assuming 'email' is used as username
+
+            // Converting UserInfo to UserDetails
+            return userDetail.map(UserInfoDetails::new)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
         }
 
-        public User getUserById(Long id) {
-            return userRepository.findById(id).orElse(null);
+        public String addUser(User user) {
+            // Encode password before saving the user
+            user.setPassword(encoder.encode(user.getPassword()));
+            repository.save(user);
+            return "User Added Successfully";
         }
+}
 
-        public User saveUser(User user) {
-            return userRepository.save(user);
-        }
-
-        public void deleteUser(Long id) {
-            userRepository.deleteById(id);
-        }
-
-        public boolean authenticateUser(String email, String password) {
-            User user = userRepository.findByEmail(email);
-
-            // Here you would validate the password, probably using a hash comparison.
-            if (user != null && user.getPassword().equals(password)) {
-                return true;
-            }
-            return false;
-        }
-    }
 
