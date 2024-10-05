@@ -1,47 +1,68 @@
-/* login-form.component.css */
-
-.form-container {
-  width: 300px;
-  margin: auto;
-  text-align: center;
-  border: 1px solid #ccc;
+/* Container styling */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto; /* Center the form vertically and horizontally */
   padding: 20px;
-  border-radius: 5px;
   background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-title {
-  font-size: 1.5em;
+/* Title styling */
+.login-title {
+  text-align: center;
   margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
+/* Form styling */
 .login-form {
   display: flex;
   flex-direction: column;
 }
 
-label {
-  margin-bottom: 10px;
+/* Grouping input fields */
+.form-group {
+  margin-bottom: 15px;
 }
 
-input {
+/* Input styling */
+.form-input {
   padding: 10px;
-  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
 }
 
-.btn {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
+/* Input focus styling */
+.form-input:focus {
+  border-color: #007bff; /* Change border color on focus */
+  outline: none; /* Remove default outline */
+}
+
+/* Button styling */
+.login-button {
+  padding: 10px;
+  background-color: #007bff; /* Bootstrap primary color */
+  color: #fff;
   border: none;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.btn:hover {
-  background-color: #0056b3;
+/* Button hover effect */
+.login-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
-.error {
+/* Error message styling */
+.error-message {
   color: red;
+  text-align: center;
   margin-top: 10px;
+  font-size: 14px;
 }

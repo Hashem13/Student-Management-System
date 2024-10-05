@@ -4,30 +4,40 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth/login'; // Replace with your API URL
+  private userId: number | null = null; // Example variable to hold user ID
+  private apiUrl = 'http://localhost:8080/auth'; // Your backend URL for authentication
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}`, { email, password }).pipe(
-      tap((response) => {
-        if (response.message === 'Login successful') {
-          localStorage.setItem('token', response.token); // Example: storing token in localStorage
-        }
+  // Method to log in and receive a JWT token
+  login(username: string, password: string): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/generateToken`, { username, password }, { responseType: 'text' as 'json' }).pipe(
+      tap((token: string) => {
+        localStorage.setItem('token', token); // Save token to local storage
       })
     );
   }
 
-  isLoggedIn(): boolean {
-    // Check if the user is logged in; e.g., by checking localStorage for a token
-    return !!localStorage.getItem('token');
+  getUserId(): number {
+    const user = JSON.parse(localStorage.getItem('user') || '{}'); // Retrieve user from local storage
+    return user.id; // Assuming the user object has an 'id' property
   }
 
+  // Check if the user is logged in
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token'); // Check if token exists
+  }
+
+  // Method to get the token from local storage
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  // Method to log out the user
   logout(): void {
-    // Example: Clear token from localStorage upon logout
     localStorage.removeItem('token');
   }
 }

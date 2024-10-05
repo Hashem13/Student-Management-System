@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service'; // Update the path if needed
-import { CourseService } from 'src/app/courses/course.service'; // Update the path if needed
+import { CourseService } from '../../courses/course.service';
+import { AuthService } from '../../login/auth.service';
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  // Add any other relevant fields
+}
 
 @Component({
   selector: 'app-user-dashboard',
@@ -8,32 +16,38 @@ import { CourseService } from 'src/app/courses/course.service'; // Update the pa
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-  user: any;
-  courses: any[] = [];
+  user: User | null = null; // Define the user type
+  userId: number | null = null; // Initialize with null
+  courses: any[] = []; // Initialize as an empty array
 
-  constructor(
-    private userService: UserService,
-    private courseService: CourseService
-  ) { }
+  constructor(private courseService: CourseService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.userService.getUserInfo().subscribe(
-      data => {
-        this.user = data;
-        this.loadUserCourses(data.id); // Assuming user ID is needed to fetch courses
-      },
-      error => {
-        console.error('Error fetching user info', error);
-      }
-    );
+    this.userId = this.authService.getUserId(); // Get the logged-in user ID
+    this.loadUserInfo(); // Load user information
+    if (this.userId) {
+      this.loadUserCourses(this.userId); // Load courses if userId is found
+    } else {
+      console.error('User ID not found');
+    }
   }
-
-  loadUserCourses(userId: string): void {
+  
+  loadUserInfo(): void {
+    const user = JSON.parse(localStorage.getItem('user') || 'null'); // Retrieve user from local storage
+    if (user) {
+      this.user = user; // Assign user info to the component's user property
+    } else {
+      console.error('User information not found');
+      // Optionally, display a user-friendly message in the UI
+    }
+  }
+  
+  loadUserCourses(userId: number): void {
     this.courseService.getUserCourses(userId).subscribe(
-      courses => {
-        this.courses = courses;
+      (courses: any[]) => {
+        this.courses = courses; // Update courses
       },
-      error => {
+      (error: any) => {
         console.error('Error fetching user courses', error);
       }
     );

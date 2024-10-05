@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CourseService } from 'src/app/courses/course.service';
+import { CourseService } from '../../courses/course.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../login/auth.service';
 import { RegistrationService } from '../registration.service';
 
 @Component({
@@ -9,46 +10,54 @@ import { RegistrationService } from '../registration.service';
   styleUrls: ['./register-form.component.css']
 })
 export class RegisterFormComponent implements OnInit {
-  course: any;
-  errorMessage: string = '';
+  courseId: number = 0; // Initialize with a default value
+  course: any; // Define the type based on your course structure
+  errorMessage: string | null = null; // Initialize the errorMessage property
+  userId: number | null = null; // To store the user ID
 
   constructor(
-    private route: ActivatedRoute,
     private courseService: CourseService,
-    private registrationService: RegistrationService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private route: ActivatedRoute, // Inject ActivatedRoute
+    private authService: AuthService,
+    private registrationService: RegistrationService
+  ) {}
 
   ngOnInit(): void {
-    const courseId = this.route.snapshot.paramMap.get('id');
-    if (courseId) {
-      this.courseService.getCourseById(courseId).subscribe(
-        data => {
-          this.course = data;
-        },
-        error => {
-          console.error('Error fetching course details', error);
-        }
-      );
-    }
+    this.route.params.subscribe(params => {
+      this.courseId = +params['id']; // Get the courseId from route parameters
+      this.loadCourse(); // Load the course details using the courseId
+      this.userId = this.authService.getUserId(); // Retrieve user ID from AuthService
+    });
   }
 
-  register(): void {
-    const userId = 'user123'; // Example user ID
-    const courseId = this.course?.id;
+  loadCourse(): void {
+    this.courseService.getCourseById(this.courseId).subscribe(
+      (data: any) => {
+        console.log('Course data fetched:', data); // Log the fetched data
+        this.course = data;
+      },
+      (error: any) => {
+        console.error('Error fetching course', error);
+        this.errorMessage = 'Failed to load course details.';
+      }
+    );
+  }
 
-    if (courseId) {
-      this.registrationService.registerCourse(userId, courseId).subscribe(
-        response => {
-          this.router.navigate(['/user-dashboard']);
+  confirmEnrollment(): void {
+    if (this.userId) {
+      // Correctly pass the courseId and userId as arguments
+      this.registrationService.enroll(this.courseId, this.userId).subscribe(
+        (response) => {
+          console.log('Enrollment successful', response);
+          this.router.navigate(['/user-dashboard']); // Redirect to user dashboard after successful enrollment
         },
-        error => {
-          this.errorMessage = 'Registration failed. Please try again.';
-          console.error('Registration failed', error);
+        (error) => {
+          console.error('Error enrolling in course', error);
         }
       );
     } else {
-      this.errorMessage = 'Invalid course ID.';
+      console.error('User ID not found');
     }
   }
 }

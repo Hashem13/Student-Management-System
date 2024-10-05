@@ -1,16 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../login/auth.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegistrationService {
-  private apiUrl = 'https://reqres.in/api/users'; // Replace with your actual API URL
+  private apiUrl = 'http://localhost:8080/enrollments/enroll'; // Your backend URL for enrollments
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  registerCourse(userId: string, courseId: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, { userId, courseId });
+  enroll(courseId: number, userId: number): Observable<any> {
+    const token = this.authService.getToken(); // Get the token from AuthService
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    const body = {
+      course: { id: courseId },
+      userInfo: { id: userId }
+    };
+
+    return this.http.post<any>(this.apiUrl, body, { headers }); // Make the enrollment request
   }
 }

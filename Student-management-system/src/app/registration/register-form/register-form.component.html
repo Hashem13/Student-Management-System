@@ -1,12 +1,14 @@
-<div class="registration-container">
-    <h2 class="registration-title">Register for Course</h2>
-    <div *ngIf="course">
-      <h3 class="course-name">{{ course.title }}</h3>
-      <p class="course-description">{{ course.description }}</p>
-      <form (ngSubmit)="register()">
-        <button type="submit" class="btn">Confirm Registration</button>
-      </form>
-    </div>
-    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+<div class="register-form-container">
+  <h2 class="form-title">Register for Course</h2>
+  <div *ngIf="course" class="course-details">
+      <h3 class="course-name">{{ course.courseName }}</h3>
+      <p class="course-description"><strong>Description:</strong> {{ course.courseDescription }}</p>
+      <p class="course-credits"><strong>Credits:</strong> {{ course.credits }}</p>
+      <p class="course-instructor"><strong>Instructor:</strong> {{ course.instructorName }}</p>
+      <button (click)="confirmEnrollment()" class="register-button">Confirm Enrollment</button>
+
   </div>
-  
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+</div>
+
+
