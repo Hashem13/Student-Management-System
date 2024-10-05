@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.model.User;
+import com.example.backend.model.UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +14,10 @@ public class UserInfoDetails implements UserDetails {
     private String password;
     private List<GrantedAuthority> authorities;
 
-    public UserInfoDetails(User user) {
-        this.username = user.getEmail(); // Assuming 'email' is used as 'username'
-        this.password = user.getPassword();
-        this.authorities = List.of(user.getRoles().split(","))
+    public UserInfoDetails(UserInfo userInfo) {
+        this.username = userInfo.getEmail(); // Assuming 'email' is used as 'username'
+        this.password = userInfo.getPassword();
+        this.authorities = List.of(userInfo.getRoles().split(","))
                 .stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());

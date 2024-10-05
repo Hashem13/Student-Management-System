@@ -16,14 +16,14 @@ public class Enrollment {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserInfo userInfo;
 
     // Constructors
     public Enrollment() {}
 
-    public Enrollment(Course course, User user) {
+    public Enrollment(Course course, UserInfo userInfo) {
         this.course = course;
-        this.user = user;
+        this.userInfo = userInfo;
     }
 
     // Getters and Setters
@@ -44,11 +44,11 @@ public class Enrollment {
         this.course = course;
     }
 
-    public User getUser() {
-        return user;
+    public UserInfo getUser() {
+        return userInfo;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 }

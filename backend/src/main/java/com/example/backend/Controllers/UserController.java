@@ -2,7 +2,7 @@ package com.example.backend.Controllers;
 
 
 import com.example.backend.model.AuthRequest;
-import com.example.backend.model.User;
+import com.example.backend.model.UserInfo;
 import com.example.backend.service.JwtService;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -34,8 +32,8 @@ public class UserController {
     }
 
     @PostMapping("/addNewUser")
-    public String addNewUser(@RequestBody User user) {
-        return service.addUser(user);
+    public String addNewUser(@RequestBody UserInfo userInfo) {
+        return service.addUser(userInfo);
     }
 
     @GetMapping("/user/userProfile")
