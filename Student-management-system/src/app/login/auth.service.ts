@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +22,24 @@ export class AuthService {
     );
   }
 
-  getUserId(): number {
-    const user = JSON.parse(localStorage.getItem('user') || '{}'); // Retrieve user from local storage
-    return user.id; // Assuming the user object has an 'id' property
+  getUserId(): number | null {
+    const token = this.getToken(); // Retrieve the token
+    if (token) {
+      const decodedToken: any = jwtDecode(token); // Decode the token
+      return decodedToken.id; // Extract the user ID
+    }
+    return null; // Return null if no token
   }
-
+  
+  getUserInfo() {
+    const token = this.getToken(); // Assuming you have a method to get the token
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      return decoded; // This will contain the user info
+    }
+    return null;
+  }
+  
   // Check if the user is logged in
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token'); // Check if token exists

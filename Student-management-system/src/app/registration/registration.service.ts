@@ -11,15 +11,11 @@ export class RegistrationService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  enroll(courseId: number, userId: number): Observable<any> {
+  enroll(enrollmentData: any): Observable<any> {
     const token = this.authService.getToken(); // Get the token from AuthService
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
-    const body = {
-      course: { id: courseId },
-      userInfo: { id: userId }
-    };
-
-    return this.http.post<any>(this.apiUrl, body, { headers }); // Make the enrollment request
+    return this.http.post<any>(this.apiUrl, enrollmentData, { headers }); // Make the enrollment request
   }
+  
 }

@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/welcome", "/auth/addNewUser", "/auth/generateToken").permitAll()
                         .requestMatchers("/enrollments/enroll").hasAuthority("ROLE_USER")
+                        .requestMatchers("/enrollments/user/{userId}").hasAuthority("ROLE_USER")
                         .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
                         .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated() // Protect all other endpoints

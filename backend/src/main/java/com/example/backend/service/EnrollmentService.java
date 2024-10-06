@@ -29,6 +29,8 @@ public class EnrollmentService {
         return enrollmentRepository.save(enrollment);
     }
 
+
+
     // New method to enroll user in a course
     public Enrollment enrollUserInCourse(Long userId, Long courseId) {
         UserInfo userInfo = userInfoRepository.findById(userId)
@@ -52,5 +54,10 @@ public class EnrollmentService {
 
     public void deleteEnrollment(Long id) {
         enrollmentRepository.deleteById(id);
+    }
+
+    // Method to get enrollments by user ID
+    public List<Enrollment> getEnrollmentsByUserId(Long userId) {
+        return enrollmentRepository.findByUserInfo_Id(userId);
     }
 }

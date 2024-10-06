@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-
+import com.example.backend.model.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,20 +17,19 @@ import java.util.function.Function;
 
 @Component
 public class JwtService {
-    // Replace this with a secure key in a real application, ideally fetched from environment variables
+
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
-    // Generate token with given user name
-    public String generateToken(String userName) {
-        Map<String, Object> claims = new HashMap<>();
+    // Generate token with user details
+    public String generateToken(String userName, Map<String, Object> claims) {
         return createToken(claims, userName);
     }
 
-    // Create a JWT token with specified claims and subject (username)
-    private String createToken(Map<String, Object> claims, String userName) {
+    // Create a JWT token with specified claims and subject (username or email)
+    private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userName)
+                .setSubject(subject)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) // Token valid for 30 minutes
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
@@ -43,7 +42,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // Extract the username from the token
+    // Extract the username (or email) from the token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }

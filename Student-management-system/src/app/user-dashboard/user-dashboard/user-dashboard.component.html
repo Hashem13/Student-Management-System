@@ -1,6 +1,20 @@
-<h2>Your Enrolled Courses</h2>
-<ul>
-  <li *ngFor="let course of courses">
-    {{ course.courseName }} - {{ course.credits }} credits - Instructor: {{ course.instructorName }}
-  </li>
-</ul>
+<div class="user-info">
+  <h2>User Information</h2>
+  <p><strong>Name:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Role:</strong> {{ user.roles }}</p>
+</div>
+
+<div class="courses">
+  <h2>Enrolled Courses</h2>
+  <ul *ngIf="courses.length > 0; else noCourses">
+    <li *ngFor="let course of courses">
+      <strong>{{ course.courseName }}</strong>: {{ course.courseDescription }} (Credits: {{ course.credits }})<br />
+      <small>Instructor: {{ course.instructorName }}</small>
+    </li>
+  </ul>
+  <ng-template #noCourses>
+    <p>No courses enrolled.</p>
+  </ng-template>
+</div>
+

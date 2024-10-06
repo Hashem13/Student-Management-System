@@ -33,11 +33,13 @@ export class CourseService {
   }
   
   getUserCourses(userId: number): Observable<any[]> {
-    const token = this.authService.getToken(); // Retrieve the token
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<any[]>(`http://localhost:8080/users/${userId}/courses`, { headers })
-      .pipe(catchError(this.handleError)); // Add error handling
-  }
+    const token = this.authService.getToken(); // Fetch the token from your auth service
+    const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}` // Add the token to the headers
+    });
+
+    return this.http.get<any[]>(`http://localhost:8080/enrollments/user/${userId}`, { headers });
+}
 
   private handleError(error: any): Observable<never> {
     console.error('An error occurred:', error); // Log the error

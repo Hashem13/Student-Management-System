@@ -29,18 +29,22 @@ public class EnrollmentController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping
-    public Enrollment createEnrollment(@RequestBody Enrollment enrollment) {
-        return enrollmentService.saveEnrollment(enrollment);
-    }
-    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/enroll")
     public Enrollment enrollUser(@RequestBody Enrollment enrollment) {
         return enrollmentService.enrollUserInCourse(enrollment.getUser().getId(), enrollment.getCourse().getId());
     }
+
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @DeleteMapping("/{id}")
     public void deleteEnrollment(@PathVariable Long id) {
         enrollmentService.deleteEnrollment(id);
     }
+
+    // New method to get enrollments by user ID
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping("/user/{userId}")
+    public List<Enrollment> getEnrollmentsByUserId(@PathVariable Long userId) {
+        return enrollmentService.getEnrollmentsByUserId(userId);
+    }
+
 }

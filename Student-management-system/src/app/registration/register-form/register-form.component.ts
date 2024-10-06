@@ -45,9 +45,18 @@ export class RegisterFormComponent implements OnInit {
   }
 
   confirmEnrollment(): void {
-    if (this.userId) {
-      // Correctly pass the courseId and userId as arguments
-      this.registrationService.enroll(this.courseId, this.userId).subscribe(
+    const userId = this.authService.getUserId(); // Retrieve user ID from AuthService
+    console.log('User ID:', userId); // Check if user ID is retrieved correctly
+  
+    if (userId) {
+      const enrollmentData = {
+        user: { id: userId },
+        course: { id: this.courseId }
+      };
+  
+      console.log('Enrollment Data:', enrollmentData);
+  
+      this.registrationService.enroll(enrollmentData).subscribe(
         (response) => {
           console.log('Enrollment successful', response);
           this.router.navigate(['/user-dashboard']); // Redirect to user dashboard after successful enrollment
@@ -60,4 +69,6 @@ export class RegisterFormComponent implements OnInit {
       console.error('User ID not found');
     }
   }
+  
+  
 }
